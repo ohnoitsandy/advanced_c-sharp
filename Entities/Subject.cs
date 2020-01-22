@@ -2,12 +2,8 @@ using System;
 
 namespace CoreSchool.Entities
 {
-    public class Subject
+    public class Subject: BaseSchoolObject
     {
-        public string Id { get; private set; }
         
-        public string Name { get; set; }
-
-        public Subject() => Id = Guid.NewGuid().ToString();
     }
 }

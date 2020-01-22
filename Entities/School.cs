@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace CoreSchool.Entities
 {
-    public class School
+    public class School: BaseSchoolObject
     {
-        public string Id { get; private set; } = Guid.NewGuid().ToString();
-        public string Name { get; set; }
         
         public int FundationYear { get; set; }
         
@@ -17,8 +15,6 @@ namespace CoreSchool.Entities
         public SchoolTypes SchoolTypes { get; set; }
 
         public List<Course> Courses { get; set; }
-
-        public School() => this.Id = Guid.NewGuid().ToString();
         
         public School(string name, int fundationYear) => (this.Name, this.FundationYear) = (name, fundationYear);
         
