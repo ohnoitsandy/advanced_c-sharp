@@ -1,2 +1,2 @@
-# advanced_c-sharp
-Learning advanced features of the C# languaje with the .NetCore framework 
+# C-Sharp Advanced-
+this is the repo for a course im taking, i will use this to track my progress

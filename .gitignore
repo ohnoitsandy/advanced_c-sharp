@@ -1,0 +1,11 @@
+obj
+bin
+.idea/*
+appsettings.json
+appsettings.Development.json
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/lauch.json
+!.vscode/extensions.json
+/.idea.basics_of_ASP.NET.dir/.idea/workspace.xml
