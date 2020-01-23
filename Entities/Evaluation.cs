@@ -10,6 +10,10 @@ namespace CoreSchool.Entities
         public Subject Subject { get; set; }
 
         public double Grade { get; set; }
-        
+
+        public override string ToString()
+        {
+            return $"{Grade},{Student.Name},{Subject.Name}";
+        }
     }
 }

@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CoreSchool.Entities;
+using CoreSchool.Utilities;
 
 namespace CoreSchool
 {
-    public class SchoolEngine
+    public sealed class SchoolEngine
     {
         public School School { get; set; }
 
@@ -97,6 +98,23 @@ namespace CoreSchool
                     }
                 }
             }
+        }
+
+        public List<BaseSchoolObject> GetBaseSchoolObjects()
+        {
+            var objectList = new List<BaseSchoolObject>();
+            objectList.Add(School);
+            objectList.AddRange(School.Courses);
+            foreach (var course in School.Courses)
+            {
+                objectList.AddRange(course.Subjects);
+                objectList.AddRange(course.Students);
+                foreach (var student in course.Students)
+                {
+                    objectList.AddRange(student.Evaluations);
+                }
+            }
+            return objectList;
         }
     }
 }

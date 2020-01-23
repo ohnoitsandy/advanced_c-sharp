@@ -9,6 +9,11 @@ namespace CoreSchool.Entities
         public string Name { get; set; }
 
         protected BaseSchoolObject() => Id = Guid.NewGuid().ToString();
+
+        public override string ToString()
+        {
+            return $"{Name},{Id}";
+        }
     }
     
 }
