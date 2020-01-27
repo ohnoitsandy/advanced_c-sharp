@@ -43,7 +43,8 @@ namespace CoreSchool
 
         //LINES OF CODE HAVE BEEN REDUCED TROUGH POLYMORPHISM
 
-        public List<BaseSchoolObject> GetBaseSchoolObjects(
+        //OVERRIDE METHODS
+        public IReadOnlyCollection <BaseSchoolObject> GetBaseSchoolObjects(
             bool bringEvaluations = true,
             bool bringStudents = true,
             bool bringSubjects = true,
@@ -53,7 +54,7 @@ namespace CoreSchool
             return GetBaseSchoolObjects(out var dummy);
         }
         
-        public List<BaseSchoolObject> GetBaseSchoolObjects(
+        public IReadOnlyCollection <BaseSchoolObject> GetBaseSchoolObjects(
             out int evaluationCount,
             bool bringEvaluations = true,
             bool bringStudents = true,
@@ -89,7 +90,7 @@ namespace CoreSchool
                     }
                 }
             }
-            return objectList;
+            return objectList.AsReadOnly();
         }
 
         #region LoadResources
