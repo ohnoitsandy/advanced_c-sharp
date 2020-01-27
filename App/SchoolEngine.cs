@@ -24,6 +24,75 @@ namespace CoreSchool
             LoadSubjects();
             LoadEvaluations();
         }
+        
+
+        private static List<Student> GenerateStudents(int limit)
+        {
+            string[] name1 = { "Alba", "Felipa", "Eusebio", "Farid", "Donald", "Alvaro", "Nicolás" };
+            string[] secondName1 = { "Ruiz", "Sarmiento", "Uribe", "Maduro", "Trump", "Toledo", "Herrera" };
+            string[] name2 = { "Freddy", "Anabel", "Rick", "Murty", "Silvana", "Diomedes", "Nicomedes", "Teodoro" };
+
+            var listOfStudents = from n1 in name1
+                from n2 in name2
+                from sn in secondName1
+                select new Student {Name = $"{n1} {n2} {secondName1}"};
+
+            return listOfStudents.OrderBy((student) => student.Id).Take(limit).ToList();
+
+        }
+
+        //LINES OF CODE HAVE BEEN REDUCED TROUGH POLYMORPHISM
+
+        public List<BaseSchoolObject> GetBaseSchoolObjects(
+            bool bringEvaluations = true,
+            bool bringStudents = true,
+            bool bringSubjects = true,
+            bool bringCourses = true
+        )
+        {
+            return GetBaseSchoolObjects(out var dummy);
+        }
+        
+        public List<BaseSchoolObject> GetBaseSchoolObjects(
+            out int evaluationCount,
+            bool bringEvaluations = true,
+            bool bringStudents = true,
+            bool bringSubjects = true,
+            bool bringCourses = true
+            )
+        {
+            evaluationCount = 0;
+            var objectList = new List<BaseSchoolObject>();
+            objectList.Add(School);
+            if (bringCourses == true)
+            {
+                objectList.AddRange(School.Courses);
+            }
+            foreach (var course in School.Courses)
+            {
+                if (bringSubjects == true)
+                {
+                    objectList.AddRange(course.Subjects);
+                }
+
+                if (bringStudents == true)
+                {
+                    objectList.AddRange(course.Students);
+                }
+
+                if (bringEvaluations == true)
+                {
+                    foreach (var student in course.Students)
+                    {
+                        objectList.AddRange(student.Evaluations);
+                        evaluationCount += student.Evaluations.Count;
+                    }
+                }
+            }
+            return objectList;
+        }
+
+        #region LoadResources
 
         private void LoadCourses()
         {
@@ -43,22 +112,7 @@ namespace CoreSchool
                 course.Students = GenerateStudents(randomAmount);
             }
         }
-
-        private static List<Student> GenerateStudents(int limit)
-        {
-            string[] name1 = { "Alba", "Felipa", "Eusebio", "Farid", "Donald", "Alvaro", "Nicolás" };
-            string[] secondName1 = { "Ruiz", "Sarmiento", "Uribe", "Maduro", "Trump", "Toledo", "Herrera" };
-            string[] name2 = { "Freddy", "Anabel", "Rick", "Murty", "Silvana", "Diomedes", "Nicomedes", "Teodoro" };
-
-            var listOfStudents = from n1 in name1
-                from n2 in name2
-                from sn in secondName1
-                select new Student {Name = $"{n1} {n2} {secondName1}"};
-
-            return listOfStudents.OrderBy((student) => student.Id).Take(limit).ToList();
-
-        }
-
+        
         private void LoadSubjects()
         {
             foreach (var course in School.Courses)
@@ -73,7 +127,7 @@ namespace CoreSchool
                 course.Subjects = listOfSubjects;
             }
         }
-
+        
         private void LoadEvaluations()
         {
             foreach (var course in School.Courses)
@@ -99,22 +153,7 @@ namespace CoreSchool
                 }
             }
         }
-
-        public List<BaseSchoolObject> GetBaseSchoolObjects()
-        {
-            var objectList = new List<BaseSchoolObject>();
-            objectList.Add(School);
-            objectList.AddRange(School.Courses);
-            foreach (var course in School.Courses)
-            {
-                objectList.AddRange(course.Subjects);
-                objectList.AddRange(course.Students);
-                foreach (var student in course.Students)
-                {
-                    objectList.AddRange(student.Evaluations);
-                }
-            }
-            return objectList;
-        }
+        
+        #endregion
     }
 }
