@@ -17,6 +17,10 @@ namespace CoreSchool
            engine.Initialize();
            Printer.DrawTitle("School courses for the jan - jun semester");
            PrintSchoolCourses(engine.School);
+
+           var something = engine.GetObjectDictionary();
+            engine.PrintDictionary(something);
+
         }
 
         private static void PrintSchoolCourses(School school)
