@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection.Metadata.Ecma335;
+using CoreSchool.App;
 using CoreSchool.Entities;
 using CoreSchool.Utilities;
 using static System.Console;
@@ -13,14 +14,16 @@ namespace CoreSchool
     {
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.ProcessExit += ActionEvent;
            var engine = new SchoolEngine();
            engine.Initialize();
            Printer.DrawTitle("School courses for the jan - jun semester");
-           PrintSchoolCourses(engine.School);
+           var reporter = new Reporter(engine.GetObjectDictionary());
+        }
 
-           var something = engine.GetObjectDictionary();
-            engine.PrintDictionary(something);
-
+        private static void ActionEvent(object? sender, EventArgs e)
+        {
+            Printer.DrawTitle("PROCESS FAILED SUCCESSFULLY");
         }
 
         private static void PrintSchoolCourses(School school)

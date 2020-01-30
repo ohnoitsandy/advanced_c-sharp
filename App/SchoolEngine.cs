@@ -6,7 +6,7 @@ using System.Linq;
 using CoreSchool.Entities;
 using CoreSchool.Utilities;
 
-namespace CoreSchool
+namespace CoreSchool.App
 {
     public sealed class SchoolEngine
     {
@@ -206,13 +206,13 @@ namespace CoreSchool
         
         private void LoadEvaluations()
         {
+            var randomGrade = new Random();
             foreach (var course in School.Courses)
             {
                 foreach (var subject in course.Subjects)
                 {
                     foreach (var student in course.Students)
                     {
-                        var randomGrade = new Random();
                         for (int i = 0; i < 5; i++)
                         {
 
@@ -221,7 +221,7 @@ namespace CoreSchool
                                 Name = $"{subject.Name} EV:#{i + 1}",
                                 Student = student,
                                 Subject = subject,
-                                Grade = MathF.Round((float)(5 * randomGrade.NextDouble()), 2)
+                                Grade = MathF.Round(5 * (float)randomGrade.NextDouble(), 2)
                             };
                             student.Evaluations.Add(evaluation);
                         }
