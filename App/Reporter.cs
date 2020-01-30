@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CoreSchool.Entities;
 
 namespace CoreSchool.App
@@ -18,10 +19,32 @@ namespace CoreSchool.App
             _dictionary = schoolObjectDictionary;
         }
 
-       /* public IEnumerable<Evaluation> GetListOfEvaluations()
+        public IEnumerable<Evaluation> GetListOfEvaluations()
         {
-            _dictionary[DictionaryKey.Evaluation]
+            IEnumerable<School> response;
+            if (_dictionary.TryGetValue(DictionaryKey.Evaluation,
+                out IEnumerable<BaseSchoolObject> list))
+            {
+                return list.Cast<Evaluation>();
+            }
+
+            {
+                return new List<Evaluation>();
+            }
         }
-        */
+
+        public IEnumerable<string> GetListOfSubjects()
+        {
+            var evaluationList = GetListOfEvaluations();
+
+            return (from evaluation in evaluationList
+                select evaluation.Name).Distinct();
+        }
+        
+        public Dictionary<string, IEnumerable<Evaluation>> GetEvaluationsListBySubject()
+        {
+            var dictionaryOfSubjectsByEvaluation = new Dictionary<string, IEnumerable<Evaluation>>();
+            return dictionaryOfSubjectsByEvaluation;
+        }
     }
 }

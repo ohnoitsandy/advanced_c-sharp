@@ -19,6 +19,9 @@ namespace CoreSchool
            engine.Initialize();
            Printer.DrawTitle("School courses for the jan - jun semester");
            var reporter = new Reporter(engine.GetObjectDictionary());
+           var evaluationList = reporter.GetListOfEvaluations();
+           var subjectList = reporter.GetListOfSubjects();
+
         }
 
         private static void ActionEvent(object? sender, EventArgs e)

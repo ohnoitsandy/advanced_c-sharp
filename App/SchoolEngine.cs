@@ -72,7 +72,7 @@ namespace CoreSchool.App
         {
             var dictionary = new Dictionary<DictionaryKey, IEnumerable <BaseSchoolObject>>();
             
-            dictionary.Add(DictionaryKey.School, new[] {School});
+            //dictionary.Add(DictionaryKey.School, new[] {School});
             // A NEW ARRAY MADE OUT OF A SINGLE SCHOOL IS STORED IN THE "SCHOOL" INDEX 
             dictionary.Add(DictionaryKey.Course, School.Courses.Cast<BaseSchoolObject>());
             dictionary[DictionaryKey.Course] = School.Courses.Cast<BaseSchoolObject>();
