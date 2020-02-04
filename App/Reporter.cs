@@ -35,7 +35,11 @@ namespace CoreSchool.App
 
         public IEnumerable<string> GetListOfSubjects()
         {
-            var evaluationList = GetListOfEvaluations();
+            return GetListOfSubjects(out var dummy);
+        }
+        public IEnumerable<string> GetListOfSubjects(out IEnumerable<Evaluation> evaluationList)
+        {
+            evaluationList = GetListOfEvaluations();
 
             return (from evaluation in evaluationList
                 select evaluation.Name).Distinct();
@@ -44,6 +48,7 @@ namespace CoreSchool.App
         public Dictionary<string, IEnumerable<Evaluation>> GetEvaluationsListBySubject()
         {
             var dictionaryOfSubjectsByEvaluation = new Dictionary<string, IEnumerable<Evaluation>>();
+            var subjectList = GetListOfSubjects();
             return dictionaryOfSubjectsByEvaluation;
         }
     }
