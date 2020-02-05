@@ -37,7 +37,8 @@ namespace CoreSchool.App
         {
             return GetListOfSubjects(out var dummy);
         }
-        public IEnumerable<string> GetListOfSubjects(out IEnumerable<Evaluation> evaluationList)
+        public IEnumerable<string> GetListOfSubjects(
+            out IEnumerable<Evaluation> evaluationList)
         {
             evaluationList = GetListOfEvaluations();
 
@@ -48,8 +49,44 @@ namespace CoreSchool.App
         public Dictionary<string, IEnumerable<Evaluation>> GetEvaluationsListBySubject()
         {
             var dictionaryOfSubjectsByEvaluation = new Dictionary<string, IEnumerable<Evaluation>>();
-            var subjectList = GetListOfSubjects();
+            
+            var subjectList = GetListOfSubjects(out var evaluationList);
+
+            foreach (var subject in subjectList)
+            {
+                var subjectEvaluation = from evaluation in evaluationList
+                    where evaluation.Subject.Name == subject
+                    select evaluation;
+                dictionaryOfSubjectsByEvaluation.Add(subject, subjectEvaluation);
+            }
+            
             return dictionaryOfSubjectsByEvaluation;
         }
+
+        public Dictionary<string, IEnumerable<object>> GetStudentGradeByMean()
+        {
+            var response = new Dictionary<string, IEnumerable<object>>();
+            var dictionaryOfEvaluationBySubject = GetEvaluationsListBySubject();
+            foreach (var subjectWithEval in dictionaryOfEvaluationBySubject)
+            {
+                var studentMean = from eval in subjectWithEval.Value
+                    group eval by new {
+                    eval.Student.Id,
+                    eval.Student.Name
+                }
+                    into evalStudentGroup
+                    select new MeanStudent
+                    {
+                        StudentId = evalStudentGroup.Key.Id,
+                        Name = evalStudentGroup.Key.Name,
+                        Mean = (float)evalStudentGroup.Average(evaluation => evaluation.Grade)
+                        
+                    };
+                response.Add(subjectWithEval.Key, studentMean);
+            }
+
+            return response;
+        }
+        
     }
 }
